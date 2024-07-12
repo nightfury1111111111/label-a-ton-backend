@@ -5,13 +5,13 @@
  * @version 1.0.0
  */
 import { Router } from "express";
-import UserController from "../controllers/user";
+import WorkspaceController from "../controllers/workspace";
 import { checkJwt } from "../middlewares/checkJwt";
 import { checkRole } from "../middlewares/checkRole";
 
 const router = Router();
-const user = new UserController();
+const workspace = new WorkspaceController();
 
-router.get("/test", user.test);
+router.get("/test", workspace.test);
 
 export default router;

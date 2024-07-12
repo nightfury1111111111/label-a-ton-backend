@@ -18,11 +18,11 @@ function wait(milliseconds: number) {
   });
 }
 
-class UserController {
+class GithubController {
   public async test(req: Request, res: Response) {
-    console.log("user controller is working");
+    console.log("github controller is working");
     res.send("ok");
   }
 }
 
-export default UserController;
+export default GithubController;

@@ -5,13 +5,13 @@
  * @version 1.0.0
  */
 import { Router } from "express";
-import UserController from "../controllers/user";
+import GithubController from "../controllers/github";
 import { checkJwt } from "../middlewares/checkJwt";
 import { checkRole } from "../middlewares/checkRole";
 
 const router = Router();
-const user = new UserController();
+const github = new GithubController();
 
-router.get("/test", user.test);
+router.get("/test", github.test);
 
 export default router;
