@@ -3,12 +3,16 @@ dotenv.config()
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-
 import helmet from 'helmet'
 import { rateLimit } from 'express-rate-limit'
 import hpp from 'hpp'
-import routes from "./routes";
- 
+import mongoose from 'mongoose'
+import {airdropRouter, earnRouter, homeRouter, signinRouter, workForceRouter, agentRouter} from "./routes";
+
+
+mongoose.connect(process.env.mongoURI||"").then(()=>{
+  console.log("DB connected Successfully.")
+})
 
 const port = process.env.PORT || 3002
 const app = express()
@@ -47,9 +51,14 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions))
-app.use("/", routes);
+app.use("/", homeRouter);
+app.use("/auth",signinRouter);
+app.use("/agents",agentRouter);
+app.use("/airdrop",airdropRouter);
+app.use("/earn",earnRouter);
+app.use("/workforce",workForceRouter);
+
 app.use((req, res, next) => {
-  // custom 404
   res.status(404).send('Resource not found')
 })
 if (app.get('env') === 'production') {

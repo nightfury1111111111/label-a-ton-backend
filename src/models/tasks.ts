@@ -5,7 +5,8 @@ const taskSchema: Schema = new Schema({
     category: { type: String, required: true },  
     title: { type: String, required: true },  
     description: { type: String, required: true },  
-    reward: { type: Number, required: true },  
+    reward: { type: Number, required: true },
+    assignState: {type: Boolean, default: true}
 });  
 
 // Create and export the model compiled from the schema  
