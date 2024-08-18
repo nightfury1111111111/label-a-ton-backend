@@ -7,7 +7,7 @@ import helmet from 'helmet'
 import { rateLimit } from 'express-rate-limit'
 import hpp from 'hpp'
 import mongoose from 'mongoose'
-import {airdropRouter, earnRouter, homeRouter, signinRouter, workForceRouter, agentRouter} from "./routes";
+import {airdropRouter, earnRouter, homeRouter, authRouter, workForceRouter, agentRouter} from "./routes";
 
 
 mongoose.connect(process.env.mongoURI||"").then(()=>{
@@ -52,8 +52,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions))
 app.use("/", homeRouter);
-app.use("/auth",signinRouter);
-app.use("/agents",agentRouter);
+app.use("/auth",authRouter);
+app.use("/agent",agentRouter);
 app.use("/airdrop",airdropRouter);
 app.use("/earn",earnRouter);
 app.use("/workforce",workForceRouter);

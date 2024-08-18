@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-
+import {generateRefferalCode} from "../utils";
 const userSchema: Schema = new Schema({
     userId: { type: String, required: true },
     avatar: { type: String, default: ""},  
@@ -32,7 +32,8 @@ const userSchema: Schema = new Schema({
             type: mongoose.Schema.Types.ObjectId,  
             ref: 'User'  
         }
-    ]
+    ],
+    refferalCode: { type: String, required: true, default: generateRefferalCode() }
     
 });  
 

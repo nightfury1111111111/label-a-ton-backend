@@ -5,7 +5,7 @@ export const airdrop = async(req: Request, res: Response) => {
   try {  
     const userProfile = await User.find({}).select("userId").select("coins").select("friends");  
     if (userProfile) {  
-      res.json(userProfile);  
+      res.status(200).send(userProfile);  
     } else {  
       res.status(404).send('User not found');
     }  
@@ -13,3 +13,4 @@ export const airdrop = async(req: Request, res: Response) => {
     res.status(500).send({msg: error});
   }
 };
+

@@ -1,6 +1,10 @@
 import { Router } from 'express'
-import {agentsController} from "../controllers";
+import {agentsList, agentsCreate, agentsPair} from "../controllers/agents";
+import {authenticate} from "../middlewares";
 const agentRouter = Router();
 
-agentRouter.post("/agents", agentsController);
+agentRouter.get("/agentlist", authenticate, agentsList);
+agentRouter.post("/agentcreate", authenticate, agentsCreate);
+agentRouter.post("/agentpair", authenticate, agentsPair);
+
 export default agentRouter;
