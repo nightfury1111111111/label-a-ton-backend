@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 // Define the schema for the Job model  
 const jobSchema = new Schema({
-    category: { type: String, required: true },  
+    title: { type: String, required: true },  
     employer: { type: String, required: true },  
     description: { type: String, required: true },  
     requiredLevel: { type: Number, required: true, default: 1 },

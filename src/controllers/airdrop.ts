@@ -1,16 +1,26 @@
 import { Request, Response} from "express";
 import {User} from "../models";
+import {generateLootBox} from "../utils";
 
-export const airdrop = async(req: Request, res: Response) => {   
+export const leaderBoard = async(req: Request, res: Response) => {   
   try {  
-    const userProfile = await User.find({}).select("userId").select("coins").select("friends");  
-    if (userProfile) {  
-      res.status(200).send(userProfile);  
-    } else {  
-      res.status(404).send('User not found');
-    }  
-  } catch (error) {  
-    res.status(500).send({msg: error});
+    const userProfile = await User.find({}).select("_id").select("userId").select("coins").select("friends");  
+    res.status(200).send({userProfile});  
+  } catch (err) {  
+    res.status(404).send(err);
   }
 };
 
+export const addFriend = async(req: Request, res: Response) => {
+  try{
+    await User.findByIdAndUpdate({_id: req.body.user._id},{$push:{friends: req.body.requestedUser},$pull: {candidateFriends: req.body.requestedUser}});
+    if(req.body.user.friends.length()%10 === 9){
+      const lootBox = generateLootBox(req.body.user.friends.length()%10);
+      res.status(200).send({message: "Success",lootBox});
+    }
+    res.status(200).send({message: "Success"});
+  }
+  catch (err){
+    res.status(404).send(err);
+  }
+}

@@ -6,6 +6,7 @@ const taskSchema: Schema = new Schema({
     title: { type: String, required: true },  
     description: { type: String, required: true },  
     reward: { type: Number, required: true },
+    provider: {type: String},
     assignState: {type: Boolean, default: true}
 });  
 

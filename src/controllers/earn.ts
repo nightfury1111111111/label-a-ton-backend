@@ -2,30 +2,31 @@ import { Request, Response} from "express";
 import {User, Task} from "../models";
 
 export const earnBoard = async(req: Request, res: Response) => {
-    const user = req.body.user;
     const tasks = await Task.find({assignState: true});
-    console.log(tasks);
-    res.status(200).json({user: user, tasks: tasks});
+    res.status(200).send(tasks);
 };
 
-export const executTask = async(req: Request, res: Response) => {
-
-    const task = await Task.findOneAndUpdate({_id: req.body.taskId},{assignState: false});
-    const user = await User.findOneAndUpdate({userId: req.body.user.userId},{$push: {tasks: req.body.taskId}},{new: true});
-    res.status(200).send({msg:"Success!!!"});
+export const executeTask = async(req: Request, res: Response) => {
+    if(req.body.task.assignState && !req.body.user.tasks.includes(req.body.taskId)){
+        await Task.findByIdAndUpdate({_id: req.body.taskId},{assignState: false});
+        await User.findByIdAndUpdate({_id: req.body.user._id},{$push: {tasks: req.body.taskId}});
+        res.status(200).send({message:"Success"});
+    }
+    else{
+        res.status(400).send({message: "Not Possible"});
+    }
 }
 
 export const processBalance = async(req: Request, res: Response) => {
-    const task = await Task.findOne({_id: req.body.taskId});
-    if(task){
-        // To Do  Integration with Mira Network
-        console.log(task.reward);
-        const user = await User.findOneAndUpdate({userId: req.body.user.userId},{$inc: {coins: task.reward},$pull: {tasks: req.body.taskId}},{new: true});
-        console.log(user);
-        await Task.deleteOne({_id: task._id});
-        res.status(200).send({message: "success"});
+    if(!req.body.task.assignState && req.body.user.tasks.includes(req.body.taskId)){
+
+        // To Do Integration with Mira Network and Process the feedback
+
+        await User.findByIdAndUpdate({_id: req.body.user._id},{$inc: {coins: req.body.task.reward},$pull: {tasks: req.body.taskId}});
+        await Task.deleteOne({_id: req.body.task._id});
+        res.status(200).send({message: "Success"});
     }
     else{
-        res.status(404).send({message: "No Task"});
+        res.status(400).send({message: "Not Possible"});
     }
 }

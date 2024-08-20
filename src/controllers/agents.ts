@@ -1,36 +1,39 @@
 import { Request, Response} from "express";
 import {User, Agent} from "../models";
 
-export const agentsList = (req: Request, res: Response) => {
-    res.status(200).send({user: req.body.user});
+export const agentsList = async(req: Request, res: Response) => {
+    try{
+        const agents = await Agent.find({_id: {$in: req.body.user.agents}});
+        res.status(200).send(agents);
+    }
+    catch(err){
+        res.status(404).send(err);
+    }
 };
 
-export const agentsCreate = async(req: Request, res: Response) => {
-    const agent= new Agent({agentName: req.body.agentName});
-    await agent.save().then();
-    const user = await User.findOneAndUpdate({_id: req.body.user._id},{$push: {agents: agent._id},$inc: {passiveIncome: 1}},{new: true});
-    res.status(200).send({user});
+export const agentCreate = async(req: Request, res: Response) => {
+    try{
+        if(req.body.user.coins > 100){
+            const agent= new Agent();
+            await agent.save();
+            await User.findByIdAndUpdate({_id: req.body.user._id},{$push: {agents: agent._id},$inc: {passiveIncome: 1,coins: -100}});
+            res.status(200).send({message: "Success Created!!!"});
+        }
+        else {
+            res.status(400).send({message: "Not Possible"});
+        }
+    }
+    catch(err){
+        res.status(404).send(err);
+    }
 }
 
 export const agentsPair = async(req: Request, res: Response)=>{
     try{
-        const agents = req.body.agents;
-        if(agents.length===2){
-            const tempAgent = await Agent.findOne({_id: req.body.agents[1]});
-            console.log(tempAgent);
-            if(tempAgent){
-                const agent = await Agent.findOneAndUpdate({_id: req.body.agents[0]},{$inc: {passiveIncome: tempAgent.passiveIncome,level: 1}},{new: true});
-                const user = await User.findOneAndUpdate({userId: req.body.user.userId},{$pull: {agents: tempAgent._id}},{new: true});
-                await Agent.deleteOne({_id: tempAgent._id});
-                res.status(200).send(agent);
-            }
-            else{
-                res.status(404).send({message: "Invalid Info"});
-            }
-        }
-        else{
-            res.status(404).send({message: "Invalid Info"});
-        }
+        await Agent.findByIdAndUpdate({_id: req.body.agents[0]},{$inc: {passiveIncome: req.body.tempAgent.passiveIncome,level: 1}});
+        await User.findByIdAndUpdate({_id: req.body.user._id},{$pull: {agents: req.body.tempAgent._id}});
+        await Agent.deleteOne({_id: req.body.tempAgent._id});
+        res.status(200).send({message: "Successfully Paired."});
     }
     catch(err){
         res.status(404).send(err);

@@ -1,7 +1,8 @@
 import { Router } from 'express'
-import {airdopController} from "../controllers";
-import {authenticate} from "../middlewares";
+import {leaderBoard, addFriend} from "../controllers";
+import {authenticate,addFriendValidate} from "../middlewares";
 const airdropRouter = Router();
 
-airdropRouter.get("/", authenticate, airdopController);
+airdropRouter.get("/leaderboard", authenticate, leaderBoard);
+airdropRouter.post("/addfriend", authenticate, addFriendValidate, addFriend);
 export default airdropRouter;

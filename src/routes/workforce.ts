@@ -1,12 +1,13 @@
 import { Router } from 'express'
-import { agentJobShow, assignJob,unassignJob, buyData, buyGpu } from "../controllers/workforce";
-import {authenticate} from "../middlewares";
+import { agentJobBoard, assignJob,unassignJob, assignAgent, buyData, buyGpu, decreaseCoins } from "../controllers";
+import {authenticate, jobValidate, agentValidate} from "../middlewares";
 const workForceRouter = Router();
 
-workForceRouter.get("/agentjobshow", authenticate, agentJobShow);
-workForceRouter.post("/assignjob",authenticate,assignJob);
-workForceRouter.post("/unassignjob",authenticate,unassignJob);
-workForceRouter.post("/buygpu",authenticate,buyGpu);
-workForceRouter.post("/buydata",authenticate,buyData);
+workForceRouter.get("/agentjobboard", authenticate, agentJobBoard);
+workForceRouter.post("/assignjob", authenticate, agentValidate, jobValidate, assignJob);
+workForceRouter.post("/unassignjob", authenticate,agentValidate, jobValidate, unassignJob);
+workForceRouter.post("/assignagent", authenticate,agentValidate, jobValidate, assignAgent);
+workForceRouter.post("/buygpu", authenticate, buyGpu);
+workForceRouter.post("/buydata", authenticate, buyData);
 
 export default workForceRouter;
