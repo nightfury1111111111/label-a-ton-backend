@@ -6,6 +6,6 @@ export const  generateSecureRandomString = ()=> {
   
   // Use buffer's base64 encoding and remove '+', '/' and '=' to ensure it is alphanumeric  
   // Take the required length to ensure the string isn't longer than requested 
-  const randomString = randomBuffer.toString('base64').replace(/\+/g, '0').replace(/\//g, '0').replace(/=+$/, '').substr(0, 7);  
+  const randomString = 'LAT ' + randomBuffer.toString('base64').replace(/\+/g, '0').replace(/\//g, '0').replace(/=+$/, '').substr(0, 7);  
   return randomString;  
 }  

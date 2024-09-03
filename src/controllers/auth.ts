@@ -1,16 +1,21 @@
 import {User} from "../models"
-import { Request, Response} from "express"
-import {generateToken} from "../utils"
-import {generateRefferalCode} from "../utils"
+import { Request, Response } from "express"
+import { generateToken, generateRefferalCode, generateDailyMisions } from "../utils"
 
 export const signin = async(req: Request, res: Response) => {
     try{
-        const user = await User.findOne({userId: req.body.userId});
+        let user = await User.findOne({userId: req.body.userId});
         if(!user){
-            res.status(404).send({message: "No User"});
+            res.status(400).send({message: "No User"});
         }
         else {
-            res.status(200).send({token: generateToken(user.userId),user});           
+            user = await User.findByIdAndUpdate({_id: user._id});
+            if(user){
+                res.status(200).send({token: generateToken(user.userId)});
+            }
+            else{
+                res.status(400).send({message: "No User"});
+            }
         }
     }
     catch(err){

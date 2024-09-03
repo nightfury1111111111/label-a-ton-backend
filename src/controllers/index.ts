@@ -1,11 +1,14 @@
 //user Controllers
 export {home as home} from "./user";
-export {increaseCoins as increaseCoins} from "./user";
-export {decreaseCoins as decreaseCoins} from "./user";
+export {updateCoins as updateCoins} from "./user";
+export {updateLevel as updateLevel} from "./user";
 
 // Airdrop Controllers
 export {leaderBoard as leaderBoard} from "./airdrop";
 export {addFriend as addFriend} from "./airdrop";
+export {removeFriend as removeFriend} from "./airdrop";
+export {requestFriend as requestFriend} from "./airdrop";
+export {declineFriend as declineFriend} from "./airdrop";
 
 //Auth Controllers
 export {signin as signinController} from "./auth";

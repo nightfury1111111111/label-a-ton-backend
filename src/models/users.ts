@@ -1,13 +1,14 @@
 import mongoose, { Schema } from 'mongoose';
-import {generateRefferalCode} from "../utils";
+import {generateRefferalCode, generateDailyMisions} from "../utils";
 const userSchema = new Schema({
         userId: { type: String, required: true },
         avatar: { type: String, default: ""},  
         coins: { type: Number, default: 0 },  
-        power: { type: Number, default: 1000 },  
-        data: { type: Number, default: 0 },  
+        energy: { type: Number, default: 1000 },
+        power: {type: Number, default: 0},  
+        data: { type: Number, default: 0 },
         gpus: { type: Number, default: 0 },  
-        levels: { type: Number, default: 0 },
+        level: { type: Number, default: 1 },
         passiveIncome: {type: Number, default: 0},
         referralIncome: {type: Number, default: 0},
         agents: [
@@ -36,13 +37,13 @@ const userSchema = new Schema({
                 ref: 'User'  
             } 
         ],
-        refferalCode: { type: String, required: true, default: generateRefferalCode() }
+        referralCode: { type: String, required: true, default: generateRefferalCode()}
     },
     {  
         timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
-  }
-);  
+    }
+);
 
-const User = mongoose.model('User', userSchema);  
+const User = mongoose.model('User', userSchema);
 
 export default User;

@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { agentJobBoard, assignJob,unassignJob, assignAgent, buyData, buyGpu, decreaseCoins } from "../controllers";
+import { agentJobBoard, assignJob,unassignJob, assignAgent, buyData, buyGpu } from "../controllers";
 import {authenticate, jobValidate, agentValidate} from "../middlewares";
 const workForceRouter = Router();
 

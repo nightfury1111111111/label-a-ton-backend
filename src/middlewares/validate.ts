@@ -5,7 +5,7 @@ import {Agent, User, Job, Task} from "../models";
 
 export const loginValidate = (req: Request, res: Response, next: NextFunction) => {
   try{
-    if(! req.body.userId.trim()){
+    if(req.body.userId && ! req.body.userId.trim()){
       res.status(400).send({message: "UserId must be filled"});
     }
     else{
@@ -21,7 +21,7 @@ export const loginValidate = (req: Request, res: Response, next: NextFunction) =
 
 export const signUpValidate = async(req: Request, res: Response, next: NextFunction) => {
   try{
-    if(! req.body.userId.trim()){
+    if(req.body.userId && ! req.body.userId.trim()){
       res.status(400).send({message: "UserId must be filled"});
     }
     else{
@@ -89,6 +89,37 @@ export const agentPairValidate = async(req: Request, res: Response, next: NextFu
   }
 };
 
+// Validation for Agent Upgrade
+
+export const agentUpgradeValidate = async(req: Request, res: Response, next: NextFunction) => {
+  try{
+    const agent = await Agent.findOne({_id: req.body.aget});
+    if(agent){
+      if(req.body.coins && req.body.coins.type === 'number'){
+        req.body.data.agentName = req.body.agentName && req.body.agentName.type === 'string' ? req.body.name : agent.agentName;
+        req.body.data.level = req.body.level && req.body.level.type === 'number' ? req.body.level : agent.level;
+        req.body.data.passiveIncome = req.body.passiveIncome && req.body.passiveIncome.type === 'number' ? req.body.passiveIncome : agent.passiveIncome;
+        req.body.data.strength = req.body.strength && req.body.strength.type === 'number' ? req.body.strength : agent.strength;
+        req.body.data.agility = req.body.agility && req.body.agility.type === 'number' ? req.body.agility : agent.agility;
+        req.body.data.survivability = req.body.survivability && req.body.survivability.type === 'number' ? req.body.survivability : agent.survivability;
+        req.body.data.healthPoint = req.body.healthPoint && req.body.healthPoint.type === 'number' ? req.body.healthPoint : agent.healthPoint;
+        req.body.data.coins = req.body.coins;
+        next();
+      }
+      else{
+        res.status(400).send({message: "Incorrect Coins"});
+      }
+    }
+    else{
+      res.status(400).send({message: "Invalid agent"});
+    }
+    
+  }
+  catch(err){
+    res.status(404).send(err);
+  }
+};
+
 // Validation for Add Friend
 
 export const addFriendValidate = async(req: Request, res: Response, next: NextFunction) => {
@@ -106,10 +137,44 @@ export const addFriendValidate = async(req: Request, res: Response, next: NextFu
   }
 }
 
+// Validation for Request Friend
+export const requestFriendValidate = async(req: Request, res: Response, next: NextFunction) => {
+  try{
+    const tempUser = await User.findOne({_id: req.body.requestedUser});
+    if(tempUser && !req.body.user.friends.includes(req.body.requestedUser) && !req.body.user.candidateFriends.includes(req.body.requestedUser)){
+      next();
+    }
+    else{
+      res.status(404).send({message: "Invalid Info"});
+    }
+  }
+  catch(err){
+    res.status(200).send(err);
+  }
+}
+
+// Validation for Decline Friend
+export const declineFriendValidate = async(req: Request, res: Response, next: NextFunction) => {
+  try{
+    const tempUser = await User.findOne({_id: req.body.requestedUser});
+    if(tempUser && !req.body.user.friends.includes(req.body.requestedUser) && req.body.user.candidateFriends.includes(req.body.requestedUser)){
+      next();
+    }
+    else{
+      res.status(404).send({message: "Invalid Info"});
+    }
+  }
+  catch(err){
+    res.status(200).send(err);
+  }
+}
+
+// Validation for Remove Friend
+
 export const removeFriendValidate = async(req: Request, res: Response, next: NextFunction) => {
   try{
     const tempUser = await User.findOne({_id: req.body.requestedUser});
-    if(tempUser && req.body.user.friends.includes(req.body.requestedUser)){
+    if(tempUser && req.body.user.friends.includes(req.body.requestedUser) && !req.body.user.candidateFriends.includes(req.body.requestedUser)){
       next();
     }
     else{
@@ -176,7 +241,7 @@ export const taskValidate = async(req: Request, res: Response, next: NextFunctio
 
 export const coinValidate = (req: Request, res: Response, next: NextFunction)=> {
   try{
-    if(req.body.coins){
+    if(req.body.coins && req.body.coins.type === 'number'){
       next();
     }
     else{
@@ -185,5 +250,29 @@ export const coinValidate = (req: Request, res: Response, next: NextFunction)=> 
   }
   catch(err){
     res.status(404).send(err);
+  }
+}
+
+export const clickValidate = (req: Request, res: Response, next: NextFunction)=> {
+  try{
+    if(req.body.clickCount && req.body.clickCount.type === 'number'){
+      next();
+    }
+  }
+  catch(err){
+    res.status(404).send(err);
+  }
+}
+// Missions Validate
+
+export const missionsValidate = (req: Request, res: Response, next: NextFunction)=> {
+  try{
+    // To add some features
+    if(req.body.coins && req.body.coins.type === 'number'){
+      next();
+    }
+  }
+  catch(err){
+
   }
 }

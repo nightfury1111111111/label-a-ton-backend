@@ -9,7 +9,7 @@ import hpp from 'hpp'
 import mongoose from 'mongoose'
 import {airdropRouter, earnRouter, userRouter, authRouter, workForceRouter, agentRouter} from "./routes";
 
-
+console.log(process.env.mongoURI);
 mongoose.connect(process.env.mongoURI||"").then(()=>{
   console.log("DB connected Successfully.")
 })
@@ -25,8 +25,7 @@ const limiter = rateLimit({
   limit: 10,
   standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
-  message: 'Too many requests.',
-  // store: ... , // TODO
+  message: 'Too many requests.'
 })
 app.use(limiter)
 app.use(hpp()) // prevents HTTP Parameter Pollution attacks

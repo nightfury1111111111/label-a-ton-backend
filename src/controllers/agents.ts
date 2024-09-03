@@ -41,5 +41,21 @@ export const agentsPair = async(req: Request, res: Response)=>{
 }
 
 export const agentUpgrade = async(req: Request, res: Response)=>{
-    
+    try{
+        await Agent.findByIdAndUpdate({_id: req.body.agent},
+            {
+                agentName: req.body.agentName,
+                levels: req.body.data.level,
+                passiveIncome:req.body.data.passiveIncome,
+                strength: req.body.data.strength, 
+                agility: req.body.data.agility,
+                survivability: req.body.data.survivability,
+                healthPoint: req.body.data.healthPoint
+            });
+            await User.findByIdAndUpdate({_id: req.body.user_id},{$inc: {coins: -req.body.data.coins}});
+        res.status(200).send({message: "Success"});
+    }
+    catch(err){
+        res.status(404).send(err);
+    }
 }

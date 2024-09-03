@@ -1,9 +1,9 @@
 import { Router } from 'express'
-import {home, increaseCoins, decreaseCoins} from "../controllers";
+import {home, updateCoins, updateLevel} from "../controllers";
 import { authenticate } from '../middlewares';
 const userRouter = Router();
 
 userRouter.get("/", authenticate, home);
-userRouter.post("/increasecoins", authenticate, increaseCoins);
-userRouter.get("/decreasecoins", authenticate, decreaseCoins);
+userRouter.post("/updatecoins", authenticate, updateCoins);
+userRouter.post("/updatelevel", authenticate, updateLevel);
 export default userRouter;
