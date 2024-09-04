@@ -1,5 +1,5 @@
 {
-  "name": "cctp-swap-backend",
+  "name": "label-a-ton-backend",
   "version": "1.0.0",
   "description": "Chain swap backend for solana cctp swap",
   "main": "index.js",
