@@ -18,9 +18,3 @@ export const specialAbility = (attacker: DigiSoldier, defender: DigiSoldier)=> {
     damage = damage > 0 ? damage : 1;  
     defender.hp -= damage;  
 }  
-
-export 
-
-export const battle = (attacker: DigiSoldier, defender: DigiSoldier){
-
-}
