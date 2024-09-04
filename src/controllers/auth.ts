@@ -26,7 +26,7 @@ export const signin = async(req: Request, res: Response) => {
 export const signup = async(req: Request, res: Response) => {
     try{
         if(req.body.referralCode){
-            const referralUser = await User.findOne({refferalCode: req.body.referralCode});
+            const referralUser = await User.findOne({referralCode: req.body.referralCode});
             if(referralUser){
                 const user = new User({userId: req.body.userId,coins: 100, refferalCode: generateRefferalCode(), referrals: referralUser._id});
                 await user.save();
