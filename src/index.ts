@@ -4,7 +4,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import helmet from 'helmet'
-import { rateLimit } from 'express-rate-limit'
+// import { rateLimit } from 'express-rate-limit'
 import hpp from 'hpp'
 import mongoose from 'mongoose'
 import {airdropRouter, earnRouter, userRouter, authRouter, workForceRouter, agentRouter} from "./routes";
@@ -20,14 +20,14 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(helmet())
 
-const limiter = rateLimit({
-  windowMs: 1000, // in ms
-  limit: 10,
-  standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
-  message: 'Too many requests.'
-})
-app.use(limiter)
+// const limiter = rateLimit({
+//   windowMs: 1000, // in ms
+//   limit: 10,
+//   standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+//   legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+//   message: 'Too many requests.'
+// })
+// app.use(limiter)
 app.use(hpp()) // prevents HTTP Parameter Pollution attacks
 
 app.disable('x-powered-by') // disables powered by express header
