@@ -2,7 +2,8 @@ import { Request, Response} from "express";
 import {User, Task} from "../models";
 
 export const earnBoard = async(req: Request, res: Response) => {
-    const tasks = await Task.find({assignState: true});
+    console.log(1111);
+    const tasks = await Task.find({});
     res.status(200).send(tasks);
 };
 
