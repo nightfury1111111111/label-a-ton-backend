@@ -10,7 +10,7 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
   try {  
     const token = req.headers.authorization?.split(' ')[1]; // "Bearer TOKEN_STRING"  
     if (!token) {  
-      return res.status(401).send({ message: 'NoToken'});
+      return res.status(401).send({ message: "NoToken"});
     }  
     try{
       const decoded = jwt.verify(token, secretKey) as JwtPayload;

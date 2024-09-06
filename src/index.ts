@@ -9,7 +9,6 @@ import hpp from 'hpp'
 import mongoose from 'mongoose'
 import {airdropRouter, earnRouter, userRouter, authRouter, workForceRouter, agentRouter} from "./routes";
 
-console.log(process.env.mongoURI);
 mongoose.connect(process.env.mongoURI||"").then(()=>{
   console.log("DB connected Successfully.")
 })

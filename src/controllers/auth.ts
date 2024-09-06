@@ -14,7 +14,7 @@ export const signin = async(req: Request, res: Response) => {
                 res.status(200).send({token: generateToken(user.userId)});
             }
             else{
-                res.status(400).send({message: "No User"});
+                res.status(401).send({message: "No User"});
             }
         }
     }
@@ -28,7 +28,7 @@ export const signup = async(req: Request, res: Response) => {
         if(req.body.referralCode){
             const referralUser = await User.findOne({referralCode: req.body.referralCode});
             if(referralUser){
-                const user = new User({userId: req.body.userId,coins: 100, refferalCode: generateRefferalCode(), referrals: referralUser._id});
+                const user = new User({userId: req.body.userId, userName: req.body.username, photoUrl: req.body.photoUrl, coins: 100, refferalCode: generateRefferalCode(), referrals: referralUser._id});
                 await user.save();
                 await User.updateOne({_id: referralUser._id},{$inc: {coins: 500}});
                 console.log("User Who referraled", referralUser._id);
@@ -36,14 +36,14 @@ export const signup = async(req: Request, res: Response) => {
             }
             else{
                 console.log("Common Case");
-                const user = new User({userId: req.body.userId,coins: 100, refferalCode: generateRefferalCode()});
+                const user = new User({userId: req.body.userId,userName: req.body.username, photoUrl: req.body.photoUrl,coins: 100, refferalCode: generateRefferalCode()});
                 await user.save();
                 res.status(200).send({token: generateToken(req.body.userId)});
             }
         }
         else{
             console.log("Common Case");
-            const user = new User({userId: req.body.userId,coins: 100, refferalCode: generateRefferalCode()});
+            const user = new User({userId: req.body.userId,userName: req.body.username, photoUrl: req.body.photoUrl,coins: 100, refferalCode: generateRefferalCode()});
             await user.save();
             res.status(200).send({token: generateToken(req.body.userId)});
         }

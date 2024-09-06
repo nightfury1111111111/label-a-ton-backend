@@ -1,15 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
-import {Agent, User, Job, Task} from "../models"; 
+import {Agent, User, Job, Task} from "../models";
+import {Validator} from 'validate-typescript';
+
 
 // Validation for User Login
 
 export const loginValidate = (req: Request, res: Response, next: NextFunction) => {
   try{
-    if(req.body.userId && ! req.body.userId.trim()){
-      res.status(400).send({message: "UserId must be filled"});
+    if(req.body.userId){
+      next();
     }
     else{
-      next();
+      res.status(400).send({message: "UserId must be filled"});
     }
   }
   catch(err){
@@ -21,7 +23,7 @@ export const loginValidate = (req: Request, res: Response, next: NextFunction) =
 
 export const signUpValidate = async(req: Request, res: Response, next: NextFunction) => {
   try{
-    if(req.body.userId && ! req.body.userId.trim()){
+    if(!req.body.userId || req.body.userId.trim()){
       res.status(400).send({message: "UserId must be filled"});
     }
     else{

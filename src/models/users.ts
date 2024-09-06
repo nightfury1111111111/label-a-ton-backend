@@ -1,7 +1,8 @@
 import mongoose, { Schema } from 'mongoose';
 import {generateRefferalCode, generateDailyMisions} from "../utils";
 const userSchema = new Schema({
-        userId: { type: String, required: true },
+        userId: { type: Number, required: true },
+        userName: {type: String, required: true},
         avatar: { type: String, default: ""},  
         coins: { type: Number, default: 0 },  
         energy: { type: Number, default: 1000 },
