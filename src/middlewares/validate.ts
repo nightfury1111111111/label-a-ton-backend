@@ -1,14 +1,19 @@
 import { Request, Response, NextFunction } from 'express';
 import {Agent, User, Job, Task} from "../models";
-import {Validator} from 'validate-typescript';
 
 
 // Validation for User Login
 
-export const loginValidate = (req: Request, res: Response, next: NextFunction) => {
+export const loginValidate = async(req: Request, res: Response, next: NextFunction) => {
   try{
     if(req.body.userId){
-      next();
+      req.body.user = await User.findOne({userId: req.body.userId});
+      if (req.body.user){
+        next();
+      }
+      else{
+        res.status(401).send({message: "No User"});
+      }
     }
     else{
       res.status(400).send({message: "UserId must be filled"});
