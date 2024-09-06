@@ -14,7 +14,6 @@ export const updateCoins = async(req: Request,res: Response)=> {
         await User.findByIdAndUpdate({_id: req.body.user.referralUser},{$inc:{referralIncome: Math.floor(req.body.coins/20)}});
     }
     await User.findByIdAndUpdate({_id: req.body.user._id}, {$inc:{coins: req.body.coins + req.body.user.referralIncome},$set:{levelRate: req.body.levelRate}});
-    console.log(111, req.body.levelRate);
     res.status(200).send({message: "Success Increase Coin",referralIncome:req.body.user.referralIncome });
 }
 

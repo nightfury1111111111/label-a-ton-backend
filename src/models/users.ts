@@ -11,7 +11,7 @@ const userSchema = new Schema({
         gpus: { type: Number, default: 0 },  
         level: { type: Number, default: 1 },
         levelRate: {type: Number, default: 0},
-        passiveIncome: {type: Number, default: 0},
+        passiveIncome: {type: Number, default: 2},
         referralIncome: {type: Number, default: 0},
         agents: [
             {  

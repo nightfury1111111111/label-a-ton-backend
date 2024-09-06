@@ -28,7 +28,7 @@ export const loginValidate = async(req: Request, res: Response, next: NextFuncti
 
 export const signUpValidate = async(req: Request, res: Response, next: NextFunction) => {
   try{
-    if(!req.body.userId || req.body.userId.trim()){
+    if(!req.body.userId){
       res.status(400).send({message: "UserId must be filled"});
     }
     else{
