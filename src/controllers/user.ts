@@ -13,8 +13,8 @@ export const updateCoins = async(req: Request,res: Response)=> {
     if(accountAgeInDays<30 && req.body.user.referralUser){
         await User.findByIdAndUpdate({_id: req.body.user.referralUser},{$inc:{referralIncome: Math.floor(req.body.coins/20)}});
     }
-    const currentUser = await User.findByIdAndUpdate({_id: req.body.user._id}, {$inc:{coins: req.body.coins + req.body.user.referralIncome},$set:{levelRate: req.body.levelRate}});
-    res.status(200).send({message: "Success Increase Coin",coins: currentUser?.coins });
+    await User.findByIdAndUpdate({_id: req.body.user._id}, {$inc:{coins: req.body.coins + req.body.user.referralIncome},$set:{levelRate: req.body.levelRate}});
+    res.status(200).send({message: "Success Increase Coin",referralIncome:req.body.user.referralIncome });
 }
 
 export const updateLevel = async(req: Request,res: Response)=> {
