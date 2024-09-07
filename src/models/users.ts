@@ -21,12 +21,6 @@ const userSchema = new Schema({
         ],  
         referralUser: {type: mongoose.Schema.Types.ObjectId, ref: 'User'} // User who referraled
         ,
-        tasks: [
-            {  
-                type: mongoose.Schema.Types.ObjectId,  
-                ref: 'Task'  
-            }
-        ],
         friends: [
             {  
                 type: mongoose.Schema.Types.ObjectId,  

@@ -24,7 +24,6 @@ export {buyGpu as buyGpu} from "./workforce";
 
 //Earn Controllers
 export {earnBoard as earnBoard} from "./earn";
-export {executeTask as executeTask} from "./earn";
 export {processBalance as processBalance} from "./earn";
 
 //Agents Controllers

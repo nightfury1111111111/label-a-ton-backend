@@ -14,7 +14,7 @@ export const agentsList = async(req: Request, res: Response) => {
 export const agentCreate = async(req: Request, res: Response) => {
     try{
         if(req.body.user.coins > 100){
-            const agent= new Agent();
+            const agent= new Agent(req.body.newagent);
             await agent.save();
             await User.findByIdAndUpdate({_id: req.body.user._id},{$push: {agents: agent._id},$inc: {passiveIncome: 1,coins: -100}});
             res.status(200).send({message: "Success Created!!!"});

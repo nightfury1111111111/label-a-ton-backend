@@ -26,8 +26,6 @@ const taskSchema: Schema = new Schema({
             { type: Number, required: true }
         ],
         provider: {type: String},
-        status: { type: String, enum: ['pending', 'in_progress', 'completed'], required: true, default: 'pending'},
-        assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User'}
     },{  
         timestamps: { createdAt: 'created_at', updatedAt: 'updated_at'}
     }

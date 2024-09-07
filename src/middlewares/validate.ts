@@ -103,13 +103,9 @@ export const agentUpgradeValidate = async(req: Request, res: Response, next: Nex
     const agent = await Agent.findOne({_id: req.body.aget});
     if(agent){
       if(req.body.coins && req.body.coins.type === 'number'){
-        req.body.data.agentName = req.body.agentName && req.body.agentName.type === 'string' ? req.body.name : agent.agentName;
+        req.body.data.agentId = req.body.agentId && req.body.agentId.type === 'string' ? req.body.agentId : agent.agentId;
         req.body.data.level = req.body.level && req.body.level.type === 'number' ? req.body.level : agent.level;
         req.body.data.passiveIncome = req.body.passiveIncome && req.body.passiveIncome.type === 'number' ? req.body.passiveIncome : agent.passiveIncome;
-        req.body.data.strength = req.body.strength && req.body.strength.type === 'number' ? req.body.strength : agent.strength;
-        req.body.data.agility = req.body.agility && req.body.agility.type === 'number' ? req.body.agility : agent.agility;
-        req.body.data.survivability = req.body.survivability && req.body.survivability.type === 'number' ? req.body.survivability : agent.survivability;
-        req.body.data.healthPoint = req.body.healthPoint && req.body.healthPoint.type === 'number' ? req.body.healthPoint : agent.healthPoint;
         req.body.data.coins = req.body.coins;
         next();
       }
