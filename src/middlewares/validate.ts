@@ -67,15 +67,13 @@ export const agentCreateValidate = (req: Request, res: Response, next: NextFunct
 
 export const agentPairValidate = async(req: Request, res: Response, next: NextFunction) => {
   try{
-    const agents = req.body.agents;
-    console.log(agents);
-    if(agents && agents.length===2){
-      console.log(1);
+    const deleteAgents = req.body.deleteAgents;
+    console.log(deleteAgents);
+    if(deleteAgents && deleteAgents.length===2){
       try{
-        const tempAgent1 = await Agent.findOne({_id: req.body.agents[1]});
-        const tempAgent2 = await Agent.findOne({_id: req.body.agents[1]});
+        const tempAgent1 = await Agent.findOne({_id: req.body.deleteAgents[0]});
+        const tempAgent2 = await Agent.findOne({_id: req.body.deleteAgents[1]});
         if(tempAgent1 && tempAgent2 && tempAgent1.level === tempAgent2.level){
-          req.body.tempAgent = tempAgent2;
           next();
         }
         else{

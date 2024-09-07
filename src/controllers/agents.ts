@@ -31,9 +31,9 @@ export const agentCreate = async(req: Request, res: Response) => {
 
 export const agentsPair = async(req: Request, res: Response)=>{
     try{
-        await Agent.findByIdAndUpdate({_id: req.body.agents[0]},{$inc: {passiveIncome: req.body.tempAgent.passiveIncome,level: 1}});
-        await User.findByIdAndUpdate({_id: req.body.user._id},{$pull: {agents: req.body.tempAgent._id}});
-        await Agent.deleteOne({_id: req.body.tempAgent._id});
+        const agent= new Agent(req.body.newAgent);
+        await User.findByIdAndUpdate({_id: req.body.user._id},{$pull: {agents: req.body.deleteAgents},$push: {agents: agent._id}});
+        await Agent.deleteMany({_id: req.body.deleteAgents});
         res.status(200).send({message: "Successfully Paired."});
     }
     catch(err){
