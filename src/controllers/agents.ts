@@ -7,6 +7,7 @@ export const agentsList = async(req: Request, res: Response) => {
         res.status(200).send(agents);
     }
     catch(err){
+        console.log(err);
         res.status(404).send(err);
     }
 };
@@ -14,7 +15,7 @@ export const agentsList = async(req: Request, res: Response) => {
 export const agentCreate = async(req: Request, res: Response) => {
     try{
         if(req.body.user.coins > 100){
-            const agent= new Agent(req.body.newagent);
+            const agent= new Agent(req.body.newAgent);
             await agent.save();
             await User.findByIdAndUpdate({_id: req.body.user._id},{$push: {agents: agent._id},$inc: {passiveIncome: 1,coins: -100}});
             res.status(200).send({message: "Success Created!!!"});
