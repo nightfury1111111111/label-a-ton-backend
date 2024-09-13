@@ -51,7 +51,7 @@ export const signUpValidate = async(req: Request, res: Response, next: NextFunct
 
 export const agentCreateValidate = (req: Request, res: Response, next: NextFunction)=>{
   try{
-    if(req.body.user.agents.length < 20){
+    if(req.body.user.agents.length < 12){
       next();
     }
     else {
@@ -208,7 +208,7 @@ export const jobValidate = async(req: Request, res: Response, next: NextFunction
 
 export const agentValidate = async(req: Request, res: Response, next: NextFunction) => {
   try{
-    const agent = await Agent.findOne({_id: req.body.agentId});
+    const agent = await Agent.findOne({agentId: req.body.agentId});
     if(agent){
       req.body.agent = agent;
       next();
